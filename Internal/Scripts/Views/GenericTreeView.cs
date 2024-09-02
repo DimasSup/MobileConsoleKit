@@ -101,7 +101,7 @@ namespace MobileConsole.UI
 			_filterGroup.SetActive(!hasTitle);
 
 			// Update buttons
-			_backButton.SetActive(_viewBuilder.level > 0);
+			_backButton.SetActive(true);
 			_actionButton.SetActive(_viewBuilder.actionButtonCallback != null);
 			AssetConfig.SpriteInfo spriteInfo = _config.GetSpriteInfo(_viewBuilder.actionButtonIcon);
 			if (spriteInfo != null)
@@ -195,7 +195,7 @@ namespace MobileConsole.UI
 			// Don't process if view is being prepared
 			if (_isPreparingView)
 				return;
-			
+
 			_filterString = filterString;
 			UpdateTree();
 		}
@@ -203,6 +203,7 @@ namespace MobileConsole.UI
 		public void OnClosed()
 		{
 			LogConsole.CloseAllSubView();
+			LogConsole.ToggleShow();
 		}
 
 		public void OnBack()
