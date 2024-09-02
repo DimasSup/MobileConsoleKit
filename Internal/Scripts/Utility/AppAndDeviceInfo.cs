@@ -46,12 +46,12 @@ namespace MobileConsole
 			sb.AppendFormat("Allocated memory: {0} MB\n", EventBridge.RequestAllocatedMemory().ToString("n2"));
 			sb.AppendFormat("Reserved memory: {0} MB\n", EventBridge.RequestReservedMemory().ToString("n2"));
 			sb.AppendFormat("Mono used memory: {0} MB\n", EventBridge.RequestMonoUsedMemory().ToString("n2"));
-			
+
 			sb.AppendLine();
 			sb.AppendLine("--- GPU Info ---");
 			sb.AppendLine("GPU: " + SystemInfo.graphicsDeviceName);
 			sb.AppendFormat("Graphic memory size: {0} MB\n", SystemInfo.graphicsMemorySize);
-			sb.AppendFormat("Screen size: {0}x{1}@{2}Hz\n", Screen.currentResolution.width, Screen.currentResolution.height, Screen.currentResolution.refreshRate);
+			sb.AppendFormat("Screen size: {0}x{1}@{2}Hz\n", Screen.currentResolution.width, Screen.currentResolution.height, Screen.currentResolution.refreshRateRatio);
 			sb.AppendLine("Screen dpi: " + Screen.dpi);
 
 			return sb.ToString();

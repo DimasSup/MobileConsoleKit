@@ -80,25 +80,27 @@ namespace MobileConsole.Editor
 
 		static void AddDebugLogDefineSymbolForGroup(BuildTargetGroup group)
 		{
-			string defineSymbolsString = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
+			var buildTarget = NamedBuildTarget.FromBuildTargetGroup(group);
+			string defineSymbolsString = PlayerSettings.GetScriptingDefineSymbols(buildTarget);
 			List<string> defineSymbols = defineSymbolsString.Split(';').ToList();
 			if (!defineSymbols.Contains(DebugLogDefineSymbol))
 			{
 				defineSymbols.Add(DebugLogDefineSymbol);
 				string newDefineSymbolsString = string.Join(";", defineSymbols.ToArray());
-				PlayerSettings.SetScriptingDefineSymbolsForGroup(group, newDefineSymbolsString);
+				PlayerSettings.SetScriptingDefineSymbols(buildTarget, newDefineSymbolsString);
 			}
 		}
 
 		static void RemoveDebugLogDefineSymbolForGroup(BuildTargetGroup group)
 		{
-			string defineSymbolsString = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
+			var buildTarget = NamedBuildTarget.FromBuildTargetGroup(group);
+			string defineSymbolsString = PlayerSettings.GetScriptingDefineSymbols(buildTarget);
 			List<string> defineSymbols = defineSymbolsString.Split(';').ToList();
 			if (defineSymbols.Contains(DebugLogDefineSymbol))
 			{
 				defineSymbols.Remove(DebugLogDefineSymbol);
 				string newDefineSymbolsString = string.Join(";", defineSymbols.ToArray());
-				PlayerSettings.SetScriptingDefineSymbolsForGroup(group, newDefineSymbolsString);
+				PlayerSettings.SetScriptingDefineSymbols(buildTarget, newDefineSymbolsString);
 			}
 		}
 
