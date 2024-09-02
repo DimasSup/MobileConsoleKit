@@ -11,7 +11,7 @@
 			if (_viewBuilder == null)
 				_viewBuilder = new PlayerPrefsViewBuilder();
 
-			info.shouldCloseAfterExecuted = false;
+			info.actionAfterExecuted = ActionAfterExecuted.DoNothing;
 			LogConsole.PushSubView(_viewBuilder);
 		}
 	}

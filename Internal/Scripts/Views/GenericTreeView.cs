@@ -140,7 +140,7 @@ namespace MobileConsole.UI
 				}
 				default:
 					break;
-			}			
+			}
 		}
 
 		void UpdateTree()
@@ -218,10 +218,7 @@ namespace MobileConsole.UI
 				try
 				{
 					_viewBuilder.actionButtonCallback();
-                    if (_viewBuilder.closeAllSubViewOnAction)
-                    {
-                        LogConsole.CloseAllSubView();
-                    }
+					_viewBuilder.actionAfterExecuted.Process();
 				}
 				catch (Exception e)
 				{

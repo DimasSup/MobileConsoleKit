@@ -13,7 +13,8 @@ namespace MobileConsole.UI
 			_command = command;
 			actionButtonCallback = OnActionButton;
 			actionButtonIcon = "execute";
-			
+			actionAfterExecuted = command.info.actionAfterExecuted;
+
 			Node topNode = CreateCategory(_command.info.fullPath, "command");
 			AddCommandFields(_command, topNode);
 
@@ -52,7 +53,7 @@ namespace MobileConsole.UI
 			{
 				try
 				{
-					methodInfo.Invoke(_command, null);	
+					methodInfo.Invoke(_command, null);
 				}
 				catch (System.Exception e)
 				{

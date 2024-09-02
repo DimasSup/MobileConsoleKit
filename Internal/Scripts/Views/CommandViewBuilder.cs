@@ -20,7 +20,7 @@ namespace MobileConsole.UI
 			}
 
 			CategoryPlayerPrefs.LoadCategoryStates(_rootNode, ClassName);
-			
+
 			if (LogConsoleSettings.Instance.useCategoryColor)
 				NodeColor.AdjustIconColor(_rootNode);
 
@@ -52,8 +52,7 @@ namespace MobileConsole.UI
 						Debug.LogException(e);
 					}
 
-					if (command.info.shouldCloseAfterExecuted)
-						LogConsole.CloseAllSubView();
+					command.info.actionAfterExecuted.Process();
 				}
 			}
 		}
@@ -65,4 +64,3 @@ namespace MobileConsole.UI
 		}
 	}
 }
-

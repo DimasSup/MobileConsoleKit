@@ -1,3 +1,11 @@
+# v2.1.1 by Winzardy
+## Fixes
+- Update obsolete API
+
+## Improvements
+- Command and Settings views now have a close button (close the console completely) and a return button (return to log view)
+- After calling the command, 3 actions are possible: close the console completely, close all subviews and do nothing
+
 # v2.1.0
 ## Breaking Change
 - Full source code, you'll need to remove old asset before importing the new one

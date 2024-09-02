@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace MobileConsole.Editor
 {
 	public static class MobileconsoleSetupHelper
 	{
-		const string ToolVersion = "2.1.0";
+		const string ToolVersion = "2.1.1";
 		const string DebugLogDefineSymbol = "DebugLog";
 
 		[DidReloadScripts]

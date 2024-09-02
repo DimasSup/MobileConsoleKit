@@ -10,7 +10,7 @@
 			if (_viewBuilder == null)
 				_viewBuilder = new SearchGameObjectViewBuilder();
 
-			info.shouldCloseAfterExecuted = false;
+			info.actionAfterExecuted = ActionAfterExecuted.DoNothing;
 			LogConsole.PushSubView(_viewBuilder);
 		}
 	}
