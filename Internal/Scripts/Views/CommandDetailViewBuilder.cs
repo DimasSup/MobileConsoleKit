@@ -61,6 +61,17 @@ namespace MobileConsole.UI
 				}
 			}
 		}
+
+		public override void OnPrepareToShow()
+		{
+			base.OnPrepareToShow();
+			_command.refreshUI += RefreshUI;
+		}
+
+		public override void OnPrepareToHide()
+		{
+			_command.refreshUI -= RefreshUI;
+			base.OnPrepareToHide();
+		}
 	}
 }
-

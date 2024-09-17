@@ -1,3 +1,7 @@
+# v2.1.2 by Winzardy
+## Improvements
+- Add ability to refresh UI from command
+
 # v2.1.1 by Winzardy
 ## Fixes
 - Update obsolete API
