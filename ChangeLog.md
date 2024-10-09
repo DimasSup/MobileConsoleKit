@@ -1,3 +1,7 @@
+# v2.1.3 by Winzardy
+## Fixes
+- Fix rewrite setting while the AssetDatabase is not ready yet
+
 # v2.1.2 by Winzardy
 ## Improvements
 - Add ability to refresh UI from command

@@ -10,20 +10,30 @@ namespace MobileConsole.Editor
 {
 	public static class MobileconsoleSetupHelper
 	{
-		const string ToolVersion = "2.1.2";
+		const string ToolVersion = "2.1.3";
 		const string DebugLogDefineSymbol = "DebugLog";
 
 		[DidReloadScripts]
-		static void CreateLogConsoleSettings()
+		static void OnScriptReloaded()
 		{
-			var setting = Resources.Load<LogConsoleSettings>("LogConsoleSettings");
-			if (setting == null)
+			if (Application.isBatchMode)
 			{
-				setting = ScriptableObject.CreateInstance<LogConsoleSettings>();
-				
-				Directory.CreateDirectory("Assets/Resources");
-				AssetDatabase.CreateAsset(setting, "Assets/Resources/LogConsoleSettings.asset");
+				// Don't create settings in batch mode, because it should be created before
+				return;
 			}
+
+			// Try to create settings in the next update, after the AssetDatabese import is completed
+			EditorApplication.delayCall += () =>
+			{
+				var setting = Resources.Load<LogConsoleSettings>("LogConsoleSettings");
+				if (setting == null)
+				{
+					setting = ScriptableObject.CreateInstance<LogConsoleSettings>();
+
+					Directory.CreateDirectory("Assets/Resources");
+					AssetDatabase.CreateAsset(setting, "Assets/Resources/LogConsoleSettings.asset");
+				}
+			};
 		}
 
 		static void SaveAssets()
