@@ -10,7 +10,7 @@ namespace MobileConsole.Editor
 {
 	public static class MobileconsoleSetupHelper
 	{
-		const string ToolVersion = "2.1.3";
+		const string ToolVersion = "2.1.4";
 		const string DebugLogDefineSymbol = "DebugLog";
 
 		[DidReloadScripts]

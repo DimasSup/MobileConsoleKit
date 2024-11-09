@@ -60,6 +60,14 @@ namespace MobileConsole.UI
 			EventBridge.OnChannelVisibilityChanged += UpdateActiveCells;
 		}
 
+		void OnDestroy()
+		{
+			LogReceiver.OnLogReceived -= OnLogReceived;
+			LogFilter.OnChannelConfigChanged -= OnChannelConfigChanged;
+			EventBridge.OnTimestampVisibilityChanged -= UpdateActiveCells;
+			EventBridge.OnChannelVisibilityChanged -= UpdateActiveCells;
+		}
+
 		void SetupLogFilter()
 		{
 			_toggleCollapse.isOn = LogFilter.Instance.IsCollapse;

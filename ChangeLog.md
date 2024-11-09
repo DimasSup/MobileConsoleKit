@@ -1,3 +1,7 @@
+# v2.1.4 by Winzardy
+## Fixes
+- Unsubscribe from events after destroy LogView
+
 # v2.1.3 by Winzardy
 ## Fixes
 - Fix rewrite setting while the AssetDatabase is not ready yet
