@@ -1,3 +1,7 @@
+# v2.1.5 by Winzardy
+## Improvements
+- Persistent Data Inspector now support partial deletion and sharing via checkbox
+
 # v2.1.4 by Winzardy
 ## Fixes
 - Unsubscribe from events after destroy LogView
