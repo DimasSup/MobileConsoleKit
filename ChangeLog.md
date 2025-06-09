@@ -1,3 +1,7 @@
+# v2.1.7 by Winzardy
+## Improvements
+- Subscribe LogReceiver to logMessageReceivedThreaded event
+
 # v2.1.5 by Winzardy
 ## Improvements
 - Persistent Data Inspector now support partial deletion and sharing via checkbox

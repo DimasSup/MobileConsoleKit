@@ -10,6 +10,7 @@ namespace MobileConsole
 		public static event LogCallback OnLogReceived;
 		static Pool<LogInfo> _logInfoPool;
 		static List<LogInfo> _logInfos = new List<LogInfo>();
+		static object _logInfosLock = new object();
 		static int _limitCharacterView = 200;
 
         internal static List<LogInfo> LogInfos
@@ -20,38 +21,63 @@ namespace MobileConsole
         public static void Init()
         {
             _logInfoPool = new Pool<LogInfo>(1000);
-            Application.logMessageReceived += LogMessageReceived;
+            Application.logMessageReceivedThreaded += LogMessageReceived;
 			LogFilter.Instance.RegisterChannelListener();
         }
 
 		static void LogMessageReceived(string message, string stackTrace, LogType type)
 		{
-			LogInfo logInfo = _logInfoPool.Get();
-			Match match = Regex.Match(message, LogConsoleSettings.Instance.channelRegex);
-
-			logInfo.channelInfo = match.Success ? LogChannelInfoCache.GetOrCreateChannelInfo(match.Groups[1].Value) : null;
-			logInfo.message = match.Success ? message.Substring(match.Length) : message;
-			logInfo.shortMessage = (logInfo.message.Length <= _limitCharacterView) ? logInfo.message : logInfo.message.Substring(0, _limitCharacterView);
-			logInfo.stackTrace = stackTrace;
-			logInfo.type = ConvertLogType(type);
-			logInfo.time = System.DateTime.Now.ToString(LogConsoleSettings.Instance.timeFormat);
-			logInfo.numInstance = 0;
-			logInfo.hash = (logInfo.message + logInfo.stackTrace).GetHashCode();
-			
-			_logInfos.Add(logInfo);
-
-			if (OnLogReceived != null)
+			try
 			{
-				OnLogReceived(logInfo);
+				Match match = Regex.Match(message, LogConsoleSettings.Instance.channelRegex);
+
+				LogInfo logInfo = null;
+
+				lock (_logInfosLock)
+				{
+					logInfo = _logInfoPool.Get();
+					if (match.Success)
+					{
+						logInfo.channelInfo = LogChannelInfoCache.GetOrCreateChannelInfo(match.Groups[1].Value);
+					}
+					else
+					{
+						logInfo.channelInfo = null;
+					}
+				}
+
+				logInfo.message = match.Success ? message.Substring(match.Length) : message;
+				logInfo.shortMessage = (logInfo.message.Length <= _limitCharacterView)
+					? logInfo.message
+					: logInfo.message.Substring(0, _limitCharacterView);
+				logInfo.stackTrace = stackTrace;
+				logInfo.type = ConvertLogType(type);
+				logInfo.time = System.DateTime.Now.ToString(LogConsoleSettings.Instance.timeFormat);
+				logInfo.numInstance = 0;
+				logInfo.hash = (logInfo.message + logInfo.stackTrace).GetHashCode();
+
+				lock (_logInfosLock)
+				{
+					_logInfos.Add(logInfo);
+				}
+
+				if (OnLogReceived != null)
+				{
+					OnLogReceived(logInfo);
+				}
 			}
+			catch {}
 		}
 
         internal static void Clear()
 		{
-			if (_logInfoPool != null)
+			lock (_logInfosLock)
 			{
-				_logInfoPool.Return(_logInfos);
-				_logInfos.Clear();
+				if (_logInfoPool != null)
+				{
+					_logInfoPool.Return(_logInfos);
+					_logInfos.Clear();
+				}
 			}
 		}
 
