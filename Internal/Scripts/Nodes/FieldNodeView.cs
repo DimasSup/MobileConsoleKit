@@ -281,7 +281,7 @@ namespace MobileConsole.UI
 					return false;
 				}
 
-				MethodInfo methodInfo = command.GetType().GetMethod(dropdownAttr.methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+				MethodInfo methodInfo = command.GetType().GetMethod(dropdownAttr.methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 				if (methodInfo == null)
 				{
 					throw new Exception("Could not found method name: " + dropdownAttr.methodName);
@@ -328,7 +328,7 @@ namespace MobileConsole.UI
 					return false;
 				}
 
-				MethodInfo methodInfo = command.GetType().GetMethod(dropdownAttr.methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+				MethodInfo methodInfo = command.GetType().GetMethod(dropdownAttr.methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 				if (methodInfo == null)
 				{
 					throw new Exception("Could not found method name: " + dropdownAttr.methodName);
