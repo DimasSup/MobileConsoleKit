@@ -79,7 +79,11 @@ namespace MobileConsole
 			{
 				if (_logInfoPool != null)
 				{
+#if UNITY_EDITOR
+					_logInfoPool = new Pool<LogInfo>(1);
+#else
 					_logInfoPool.Return(_logInfos);
+#endif
 					_logInfos.Clear();
 				}
 			}
