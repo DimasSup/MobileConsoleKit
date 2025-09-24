@@ -21,9 +21,9 @@ namespace MobileConsole
         public static void Init()
         {
 #if UNITY_EDITOR
-			_logInfoPool = new Pool<LogInfo>(8);
+			_logInfoPool = new Pool<LogInfo>(1);
 #else
-	        _logInfoPool = new Pool<LogInfo>(256);
+	        _logInfoPool = new Pool<LogInfo>(128);
 #endif
             Application.logMessageReceivedThreaded += LogMessageReceived;
 			LogFilter.Instance.RegisterChannelListener();
