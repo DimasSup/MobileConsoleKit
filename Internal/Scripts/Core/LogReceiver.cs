@@ -20,7 +20,11 @@ namespace MobileConsole
 
         public static void Init()
         {
-            _logInfoPool = new Pool<LogInfo>(1000);
+#if UNITY_EDITOR
+			_logInfoPool = new Pool<LogInfo>(8);
+#else
+	        _logInfoPool = new Pool<LogInfo>(256);
+#endif
             Application.logMessageReceivedThreaded += LogMessageReceived;
 			LogFilter.Instance.RegisterChannelListener();
         }
@@ -69,7 +73,7 @@ namespace MobileConsole
 			catch {}
 		}
 
-        internal static void Clear()
+        public static void Clear()
 		{
 			lock (_logInfosLock)
 			{

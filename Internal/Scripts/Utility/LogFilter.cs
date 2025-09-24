@@ -37,10 +37,10 @@ namespace MobileConsole
 
 		LogFilter()
 		{
-			_logTypeConfigs[LogType.Log] = PlayerPrefs.GetInt(GetLogTypePlayerPrefsKey(LogType.Log), 1) == 1 ? true : false;
-			_logTypeConfigs[LogType.Warning] = PlayerPrefs.GetInt(GetLogTypePlayerPrefsKey(LogType.Warning), 1) == 1 ? true : false;
-			_logTypeConfigs[LogType.Error] = PlayerPrefs.GetInt(GetLogTypePlayerPrefsKey(LogType.Error), 1) == 1 ? true : false;
-			_isCollapse = PlayerPrefs.GetInt(Key_IsCollapse, 0) == 1 ? true : false;
+			_logTypeConfigs[LogType.Log] = PlayerPrefs.GetInt(GetLogTypePlayerPrefsKey(LogType.Log), 1) == 1;
+			_logTypeConfigs[LogType.Warning] = PlayerPrefs.GetInt(GetLogTypePlayerPrefsKey(LogType.Warning), 1) == 1;
+			_logTypeConfigs[LogType.Error] = PlayerPrefs.GetInt(GetLogTypePlayerPrefsKey(LogType.Error), 1) == 1;
+			_isCollapse = PlayerPrefs.GetInt(Key_IsCollapse, 0) == 1;
 			
 			if (LogConsoleSettings.Instance.useRegexSearch)
 			{
