@@ -13,7 +13,8 @@ namespace MobileConsole.UI
 			_command = command;
 			actionButtonCallback = OnActionButton;
 			actionButtonIcon = "execute";
-			
+			actionAfterExecuted = command.info.actionAfterExecuted;
+
 			Node topNode = CreateCategory(_command.info.fullPath, "command");
 			AddCommandFields(_command, topNode);
 
@@ -52,7 +53,7 @@ namespace MobileConsole.UI
 			{
 				try
 				{
-					methodInfo.Invoke(_command, null);	
+					methodInfo.Invoke(_command, null);
 				}
 				catch (System.Exception e)
 				{
@@ -60,6 +61,17 @@ namespace MobileConsole.UI
 				}
 			}
 		}
+
+		public override void OnPrepareToShow()
+		{
+			base.OnPrepareToShow();
+			_command.refreshUI += RefreshUI;
+		}
+
+		public override void OnPrepareToHide()
+		{
+			_command.refreshUI -= RefreshUI;
+			base.OnPrepareToHide();
+		}
 	}
 }
-

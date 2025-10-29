@@ -28,7 +28,7 @@ namespace MobileConsole.UI
 		public string title;
 		public Callback actionButtonCallback;
 		public string actionButtonIcon;
-		public bool closeAllSubViewOnAction = true;
+		public ActionAfterExecuted actionAfterExecuted = ActionAfterExecuted.CloseAllSubView;
 		public bool saveScrollViewPosition = true;
 		public Vector2 scrollViewPosition = new Vector2(0f, 1f);
 		public string filterString = string.Empty;

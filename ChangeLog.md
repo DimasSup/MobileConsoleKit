@@ -1,3 +1,31 @@
+# v2.1.7 by Winzardy
+## Improvements
+- Subscribe LogReceiver to logMessageReceivedThreaded event
+
+# v2.1.5 by Winzardy
+## Improvements
+- Persistent Data Inspector now support partial deletion and sharing via checkbox
+
+# v2.1.4 by Winzardy
+## Fixes
+- Unsubscribe from events after destroy LogView
+
+# v2.1.3 by Winzardy
+## Fixes
+- Fix rewrite setting while the AssetDatabase is not ready yet
+
+# v2.1.2 by Winzardy
+## Improvements
+- Add ability to refresh UI from command
+
+# v2.1.1 by Winzardy
+## Fixes
+- Update obsolete API
+
+## Improvements
+- Command and Settings views now have a close button (close the console completely) and a return button (return to log view)
+- After calling the command, 3 actions are possible: close the console completely, close all subviews and do nothing
+
 # v2.1.0
 ## Breaking Change
 - Full source code, you'll need to remove old asset before importing the new one

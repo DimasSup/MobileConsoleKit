@@ -13,7 +13,7 @@ namespace MobileConsole
 		{
 			actionButtonIcon = "share";
 			actionButtonCallback = ShareContent;
-			closeAllSubViewOnAction = false;
+			actionAfterExecuted = ActionAfterExecuted.DoNothing;
 		}
 
 		public void SetContent(FileInfo fileInfo)

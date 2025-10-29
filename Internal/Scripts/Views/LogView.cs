@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,8 +47,14 @@ namespace MobileConsole.UI
 		int _numLogWarning;
 		int _numLogError;
 
+		int _mainThreadId;
+		List<LogInfo> _threadedLogInfos;
+
 		void Start()
 		{
+			_mainThreadId = Thread.CurrentThread.ManagedThreadId;
+			_threadedLogInfos = new List<LogInfo>(16);
+
 			_scrollView.SetDelegate(this);
 
 			SetupLogFilter();
@@ -58,6 +65,14 @@ namespace MobileConsole.UI
 			LogFilter.OnChannelConfigChanged += OnChannelConfigChanged;
 			EventBridge.OnTimestampVisibilityChanged += UpdateActiveCells;
 			EventBridge.OnChannelVisibilityChanged += UpdateActiveCells;
+		}
+
+		void OnDestroy()
+		{
+			LogReceiver.OnLogReceived -= OnLogReceived;
+			LogFilter.OnChannelConfigChanged -= OnChannelConfigChanged;
+			EventBridge.OnTimestampVisibilityChanged -= UpdateActiveCells;
+			EventBridge.OnChannelVisibilityChanged -= UpdateActiveCells;
 		}
 
 		void SetupLogFilter()
@@ -88,8 +103,30 @@ namespace MobileConsole.UI
 			_scrollView.MoveViewToBottom();
 		}
 
+		void Update()
+		{
+			if (_threadedLogInfos.Count > 0)
+			{
+				lock (_threadedLogInfos)
+				{
+					foreach (var logInfo in _threadedLogInfos)
+						OnLogReceived(logInfo);
+					_threadedLogInfos.Clear();
+				}
+			}
+		}
+
 		void OnLogReceived(LogInfo logInfo)
 		{
+			if (Thread.CurrentThread.ManagedThreadId != _mainThreadId)
+			{
+				lock (_threadedLogInfos)
+				{
+					_threadedLogInfos.Add(logInfo);
+				}
+				return;
+			}
+
 			LogFilter.Result result = LogFilter.Instance.FilterLog(logInfo);
 			if (result.isPassFilter)
 			{
@@ -174,6 +211,9 @@ namespace MobileConsole.UI
 			ResetLogNumber();
 			UpdateLogTexts();
 			UpdateFilteredLog();
+
+			lock(_threadedLogInfos)
+				_threadedLogInfos.Clear();
 		}
 
 		public void MoveToBottomLog()

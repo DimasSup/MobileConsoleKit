@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
@@ -9,20 +10,30 @@ namespace MobileConsole.Editor
 {
 	public static class MobileconsoleSetupHelper
 	{
-		const string ToolVersion = "2.1.0";
+		const string ToolVersion = "2.1.7";
 		const string DebugLogDefineSymbol = "DebugLog";
 
 		[DidReloadScripts]
-		static void CreateLogConsoleSettings()
+		static void OnScriptReloaded()
 		{
-			var setting = Resources.Load<LogConsoleSettings>("LogConsoleSettings");
-			if (setting == null)
+			if (Application.isBatchMode)
 			{
-				setting = ScriptableObject.CreateInstance<LogConsoleSettings>();
-				
-				Directory.CreateDirectory("Assets/Resources");
-				AssetDatabase.CreateAsset(setting, "Assets/Resources/LogConsoleSettings.asset");
+				// Don't create settings in batch mode, because it should be created before
+				return;
 			}
+
+			// Try to create settings in the next update, after the AssetDatabese import is completed
+			EditorApplication.delayCall += () =>
+			{
+				var setting = Resources.Load<LogConsoleSettings>("LogConsoleSettings");
+				if (setting == null)
+				{
+					setting = ScriptableObject.CreateInstance<LogConsoleSettings>();
+
+					Directory.CreateDirectory("Assets/Resources");
+					AssetDatabase.CreateAsset(setting, "Assets/Resources/LogConsoleSettings.asset");
+				}
+			};
 		}
 
 		static void SaveAssets()
@@ -80,25 +91,27 @@ namespace MobileConsole.Editor
 
 		static void AddDebugLogDefineSymbolForGroup(BuildTargetGroup group)
 		{
-			string defineSymbolsString = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
+			var buildTarget = NamedBuildTarget.FromBuildTargetGroup(group);
+			string defineSymbolsString = PlayerSettings.GetScriptingDefineSymbols(buildTarget);
 			List<string> defineSymbols = defineSymbolsString.Split(';').ToList();
 			if (!defineSymbols.Contains(DebugLogDefineSymbol))
 			{
 				defineSymbols.Add(DebugLogDefineSymbol);
 				string newDefineSymbolsString = string.Join(";", defineSymbols.ToArray());
-				PlayerSettings.SetScriptingDefineSymbolsForGroup(group, newDefineSymbolsString);
+				PlayerSettings.SetScriptingDefineSymbols(buildTarget, newDefineSymbolsString);
 			}
 		}
 
 		static void RemoveDebugLogDefineSymbolForGroup(BuildTargetGroup group)
 		{
-			string defineSymbolsString = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
+			var buildTarget = NamedBuildTarget.FromBuildTargetGroup(group);
+			string defineSymbolsString = PlayerSettings.GetScriptingDefineSymbols(buildTarget);
 			List<string> defineSymbols = defineSymbolsString.Split(';').ToList();
 			if (defineSymbols.Contains(DebugLogDefineSymbol))
 			{
 				defineSymbols.Remove(DebugLogDefineSymbol);
 				string newDefineSymbolsString = string.Join(";", defineSymbols.ToArray());
-				PlayerSettings.SetScriptingDefineSymbolsForGroup(group, newDefineSymbolsString);
+				PlayerSettings.SetScriptingDefineSymbols(buildTarget, newDefineSymbolsString);
 			}
 		}
 

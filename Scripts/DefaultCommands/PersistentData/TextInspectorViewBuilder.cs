@@ -17,7 +17,7 @@ namespace MobileConsole
 		{
 			actionButtonIcon = "share";
 			actionButtonCallback = ShareContent;
-			closeAllSubViewOnAction = false;
+			actionAfterExecuted = ActionAfterExecuted.DoNothing;
 			saveScrollViewPosition = false;
 		}
 
@@ -25,7 +25,7 @@ namespace MobileConsole
 		{
 			_fileInfo = fileInfo;
 			title = _fileInfo.Name;
-			
+
 			ClearNodes();
 
 			Node infoGroup = CreateCategories("Info");

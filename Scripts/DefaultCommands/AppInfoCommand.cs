@@ -9,7 +9,7 @@ namespace MobileConsole
 
 		public override void Execute()
 		{
-			this.info.shouldCloseAfterExecuted = false;
+			this.info.actionAfterExecuted = ActionAfterExecuted.DoNothing;
 			LogConsole.PushSubView(_viewBuilder);
 		}
 	}
@@ -21,7 +21,7 @@ namespace MobileConsole
 		{
 			actionButtonIcon = "share";
 			actionButtonCallback = Share;
-			closeAllSubViewOnAction = true;
+			actionAfterExecuted = ActionAfterExecuted.CloseAllSubView;
 
 			Node node = CreateCategory("App and device info", "command");
 			_infoNode = AddResizableText("", node);

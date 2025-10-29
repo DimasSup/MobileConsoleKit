@@ -46,7 +46,7 @@ namespace MobileConsole
 			saveScrollViewPosition = false;
 			actionButtonIcon = "share";
 			actionButtonCallback = Share;
-			closeAllSubViewOnAction = false;
+			actionAfterExecuted = ActionAfterExecuted.DoNothing;
 
 			_sb = new StringBuilder();
 		}
