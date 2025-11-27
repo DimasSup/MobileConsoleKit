@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -349,10 +349,14 @@ namespace MobileConsole
 		void OnWindowSizeChanged()
 		{
 			float width = Math.Clamp(LogConsoleSettings.Instance.windowWidth,0,1);
+            if (float.IsNaN(width)) width = 1;
 			float height = Math.Clamp(LogConsoleSettings.Instance.windowHeight,0,1);
+            if (float.IsNaN(height)) height = 1;
 			float x = Math.Clamp(LogConsoleSettings.Instance.windowPosX,0,1);
+            if (float.IsNaN(x)) x = 0;
 			float y = Math.Clamp(LogConsoleSettings.Instance.windowPosY,0,1);
-
+            if (float.IsNaN(y)) y = 0;
+            
 
 			Vector2 unfilledRegion = new Vector2((1.0f - width) * _rootTransform.sizeDelta.x, (1.0f - height) * _rootTransform.sizeDelta.y);
 			_logPanelRectTransform.sizeDelta = -unfilledRegion;
