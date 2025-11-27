@@ -348,10 +348,11 @@ namespace MobileConsole
 
 		void OnWindowSizeChanged()
 		{
-			float width = LogConsoleSettings.Instance.windowWidth;
-			float height = LogConsoleSettings.Instance.windowHeight;
-			float x = LogConsoleSettings.Instance.windowPosX;
-			float y = LogConsoleSettings.Instance.windowPosY;
+			float width = Math.Clamp(LogConsoleSettings.Instance.windowWidth,0,1);
+			float height = Math.Clamp(LogConsoleSettings.Instance.windowHeight,0,1);
+			float x = Math.Clamp(LogConsoleSettings.Instance.windowPosX,0,1);
+			float y = Math.Clamp(LogConsoleSettings.Instance.windowPosY,0,1);
+
 
 			Vector2 unfilledRegion = new Vector2((1.0f - width) * _rootTransform.sizeDelta.x, (1.0f - height) * _rootTransform.sizeDelta.y);
 			_logPanelRectTransform.sizeDelta = -unfilledRegion;
