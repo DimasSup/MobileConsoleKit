@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-
+using UnityEngine;
+using System;
 namespace MobileConsole
 {
 	[SettingCommand(name = "Console")]
@@ -79,6 +79,16 @@ namespace MobileConsole
 
 		void UpdateWindowSize()
 		{
+            
+             _windowWidth = Math.Clamp(_windowWidth,0,1);
+            if (float.IsNaN(_windowWidth)) _windowWidth = 1;
+            _windowHeight = Math.Clamp(_windowHeight,0,1);
+            if (float.IsNaN(_windowHeight)) _windowHeight = 1;
+            _windowPosX = Math.Clamp(LogConsoleSettings.Instance.windowPosX,0,1);
+            if (float.IsNaN(_windowPosX)) _windowPosX = 0;
+            _windowPosY = Math.Clamp(_windowPosY,0,1);
+            if (float.IsNaN(_windowPosY)) _windowPosY = 0;
+            
 			LogConsoleSettings.Instance.windowWidth = _windowWidth;
 			LogConsoleSettings.Instance.windowHeight = _windowHeight;
 			LogConsoleSettings.Instance.windowPosY = _windowPosY;
